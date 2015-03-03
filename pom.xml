@@ -56,7 +56,7 @@
                 <version>2.2</version>
                 <configuration>
                     <path>/</path>
-                    <port>8080</port>
+                    <port>9380</port>
                 </configuration>
             </plugin>
             <plugin>
