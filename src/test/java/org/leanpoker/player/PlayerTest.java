@@ -12,6 +12,6 @@ public class PlayerTest {
         final GameState gameState = new GameState();
 
         assertEquals(0, Player.betRequest(gameState));
-
+        
     }
 }
