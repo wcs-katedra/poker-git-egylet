@@ -180,4 +180,8 @@ public class GameState {
     public Integer getCall() {
         return currentBuyIn - players.get(inAction).getBet();
     }
+    
+    public Integer getMinimumBet(){
+    return currentBuyIn-players.get(inAction).getBet()+minimumRaise;
+    }
 }
