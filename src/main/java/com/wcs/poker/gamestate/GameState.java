@@ -1,4 +1,3 @@
-
 package com.wcs.poker.gamestate;
 
 import java.util.ArrayList;
@@ -35,165 +34,150 @@ public class GameState {
     private List<Card> communityCards = new ArrayList<Card>();
 
     /**
-     * 
-     * @return
-     *     The smallBlind
+     *
+     * @return The smallBlind
      */
     public Integer getSmallBlind() {
         return smallBlind;
     }
 
     /**
-     * 
-     * @param smallBlind
-     *     The small_blind
+     *
+     * @param smallBlind The small_blind
      */
     public void setSmallBlind(Integer smallBlind) {
         this.smallBlind = smallBlind;
     }
 
     /**
-     * 
-     * @return
-     *     The currentBuyIn
+     *
+     * @return The currentBuyIn
      */
     public Integer getCurrentBuyIn() {
         return currentBuyIn;
     }
 
     /**
-     * 
-     * @param currentBuyIn
-     *     The current_buy_in
+     *
+     * @param currentBuyIn The current_buy_in
      */
     public void setCurrentBuyIn(Integer currentBuyIn) {
         this.currentBuyIn = currentBuyIn;
     }
 
     /**
-     * 
-     * @return
-     *     The pot
+     *
+     * @return The pot
      */
     public Integer getPot() {
         return pot;
     }
 
     /**
-     * 
-     * @param pot
-     *     The pot
+     *
+     * @param pot The pot
      */
     public void setPot(Integer pot) {
         this.pot = pot;
     }
 
     /**
-     * 
-     * @return
-     *     The minimumRaise
+     *
+     * @return The minimumRaise
      */
     public Integer getMinimumRaise() {
         return minimumRaise;
     }
 
     /**
-     * 
-     * @param minimumRaise
-     *     The minimum_raise
+     *
+     * @param minimumRaise The minimum_raise
      */
     public void setMinimumRaise(Integer minimumRaise) {
         this.minimumRaise = minimumRaise;
     }
 
     /**
-     * 
-     * @return
-     *     The dealer
+     *
+     * @return The dealer
      */
     public Integer getDealer() {
         return dealer;
     }
 
     /**
-     * 
-     * @param dealer
-     *     The dealer
+     *
+     * @param dealer The dealer
      */
     public void setDealer(Integer dealer) {
         this.dealer = dealer;
     }
 
     /**
-     * 
-     * @return
-     *     The orbits
+     *
+     * @return The orbits
      */
     public Integer getOrbits() {
         return orbits;
     }
 
     /**
-     * 
-     * @param orbits
-     *     The orbits
+     *
+     * @param orbits The orbits
      */
     public void setOrbits(Integer orbits) {
         this.orbits = orbits;
     }
 
     /**
-     * 
-     * @return
-     *     The inAction
+     *
+     * @return The inAction
      */
     public Integer getInAction() {
         return inAction;
     }
 
     /**
-     * 
-     * @param inAction
-     *     The in_action
+     *
+     * @param inAction The in_action
      */
     public void setInAction(Integer inAction) {
         this.inAction = inAction;
     }
 
     /**
-     * 
-     * @return
-     *     The players
+     *
+     * @return The players
      */
     public List<Player> getPlayers() {
         return players;
     }
 
     /**
-     * 
-     * @param players
-     *     The players
+     *
+     * @param players The players
      */
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
 
     /**
-     * 
-     * @return
-     *     The communityCards
+     *
+     * @return The communityCards
      */
     public List<Card> getCommunityCards() {
         return communityCards;
     }
 
     /**
-     * 
-     * @param communityCards
-     *     The community_cards
+     *
+     * @param communityCards The community_cards
      */
     public void setCommunityCards(List<Card> communityCards) {
         this.communityCards = communityCards;
     }
 
+    public Integer getCall() {
+        return currentBuyIn - players.get(inAction).getBet();
+    }
 }
