@@ -1,6 +1,8 @@
 package org.leanpoker.player;
 
 import com.wcs.poker.gamestate.GameState;
+import com.wcs.poker.jsonconverter.JsonConverter;
+import java.util.List;
 
 public class Player {
 
@@ -9,7 +11,19 @@ public class Player {
     
 
     static final String VERSION = "Default Java folding player";
+    JsonConverter<Object> json;
+    static int actualGamerId;
+    static com.wcs.poker.gamestate.Player actualGamer;
+    static List<com.wcs.poker.gamestate.Player> gamers;
 
+    
+    public static com.wcs.poker.gamestate.Player actualGamer(GameState gameState){
+        actualGamerId=gameState.getInAction();
+        gamers=gameState.getPlayers();
+        actualGamer=gamers.get(actualGamerId);
+        return actualGamer;
+    }
+    
     public static int betRequest(GameState gameState) {
         return 0;
     }
@@ -27,6 +41,7 @@ public class Player {
         return bigBlind;
     }
     
+
     
     
     
@@ -34,4 +49,6 @@ public class Player {
     
     
     
+
+
 }
