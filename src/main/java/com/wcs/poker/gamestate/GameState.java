@@ -211,7 +211,7 @@ public class GameState {
         return actHoleCards;
     }
 
-    private static com.wcs.poker.gamestate.Player getCurrentPlayer(GameState gameState) {
+    public static com.wcs.poker.gamestate.Player getCurrentPlayer(GameState gameState) {
         return gameState.getPlayers().get(gameState.getInAction());
     }
 

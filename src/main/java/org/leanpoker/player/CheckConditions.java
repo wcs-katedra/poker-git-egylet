@@ -26,15 +26,61 @@ public class CheckConditions {
     }
 
     public int check() {
+        if (gameState.getCommunityCards().isEmpty()) {
+            preFlop();
+        }
+        if (gameState.getCommunityCards().size() == 3) {
+            Flop();
+        }
+        if (gameState.getCommunityCards().size() == 4) {
+            Turn();
+        }
+        if (gameState.getCommunityCards().size() == 5) {
+            River();
+        }
+
+        return bet;
+    }
+
+    private void preFlop() {
+        bet = gameState.getMinimumBet();
+
         randNumber = Math.random();
         List<Card> cards = gameState.requestActHoleCards(gameState);
-
         if (randNumber > 0.1) {
             bet = 10;
         } else {
             bet = 0;
         }
-        return bet;
+
+        if (isTwoBigCard(cards)) {
+            bet += 20;
+        }
+        if (isPair(cards)) {
+            bet += 30;
+        }
+        if (isPair(cards) && (cards.get(0).getRank().equals("A") || cards.get(0).getRank().equals("K"))) {
+            bet = allIN();
+        }
+    }
+
+    private void Flop() {
+        if (Math.random() * 100 < 70) {
+            bet = gameState.getCall();
+        }else{bet=0;}
+
+    }
+
+    private void Turn() {
+        if (Math.random() * 100 < 60) {
+            bet = gameState.getCall();
+        }else{bet=0;}
+    }
+
+    private void River() {
+        if (Math.random() * 100 < 50) {
+            bet = gameState.getCall();
+        }else{bet=0;}
     }
 
     private boolean isPair(List<Card> cards) {
@@ -64,4 +110,7 @@ public class CheckConditions {
         return i;
     }
 
+    private int allIN() {
+        return gameState.getCurrentPlayer(gameState).getStack();
+    }
 }
