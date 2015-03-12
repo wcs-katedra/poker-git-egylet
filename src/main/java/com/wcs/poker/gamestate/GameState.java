@@ -37,9 +37,20 @@ public class GameState {
      *
      * @return The smallBlind
      */
+        public GameState(Integer smallBlind, Integer currentBuyIn, Integer pot, Integer minimumRaise, Integer dealer, Integer orbits, Integer inAction) {
+        this.smallBlind = smallBlind;
+        this.currentBuyIn = currentBuyIn;
+        this.pot = pot;
+        this.minimumRaise = minimumRaise;
+        this.dealer = dealer;
+        this.orbits = orbits;
+        this.inAction = inAction;
+    }
     public Integer getSmallBlind() {
         return smallBlind;
     }
+
+
 
     /**
      *
