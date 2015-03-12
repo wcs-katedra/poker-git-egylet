@@ -6,7 +6,6 @@ import org.junit.Test;
 import com.wcs.poker.gamestate.Player;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Assert;
 import static org.junit.Assert.*;
 
 public class PlayerTest {
