@@ -30,13 +30,13 @@ public class CheckConditions {
             preFlop();
         }
         if (gameState.getCommunityCards().size() == 3) {
-            Flop();
+            flop();
         }
         if (gameState.getCommunityCards().size() == 4) {
-            Turn();
+            turn();
         }
         if (gameState.getCommunityCards().size() == 5) {
-            River();
+            river();
         }
 
         return bet;
@@ -46,7 +46,7 @@ public class CheckConditions {
         bet = gameState.getMinimumBet();
 
         randNumber = Math.random();
-        List<Card> cards = gameState.requestActHoleCards(gameState);
+        List<Card> cards = gameState.requestActHoleCards();
         if (randNumber > 0.1) {
             bet = 10;
         } else {
@@ -60,27 +60,33 @@ public class CheckConditions {
             bet += 30;
         }
         if (isPair(cards) && (cards.get(0).getRank().equals("A") || cards.get(0).getRank().equals("K"))) {
-            bet = allIN();
+            bet = allIn();
         }
     }
 
-    private void Flop() {
+    private void flop() {
         if (Math.random() * 100 < 70) {
             bet = gameState.getCall();
-        }else{bet=0;}
+        } else {
+            bet = 0;
+        }
 
     }
 
-    private void Turn() {
+    private void turn() {
         if (Math.random() * 100 < 60) {
             bet = gameState.getCall();
-        }else{bet=0;}
+        } else {
+            bet = 0;
+        }
     }
 
-    private void River() {
+    private void river() {
         if (Math.random() * 100 < 50) {
             bet = gameState.getCall();
-        }else{bet=0;}
+        } else {
+            bet = 0;
+        }
     }
 
     private boolean isPair(List<Card> cards) {
@@ -92,11 +98,11 @@ public class CheckConditions {
     }
 
     private boolean isOneBigCard(List<Card> cards) {
-        return bigRank.contains(cards.get(0).getRank()) || bigRank.contains(cards.get(1).getRank());
+        return howManyBigCard(cards) == 1;
     }
 
     private boolean isTwoBigCard(List<Card> cards) {
-        return bigRank.contains(cards.get(0).getRank()) && bigRank.contains(cards.get(1).getRank());
+        return howManyBigCard(cards) == 2;
     }
 
     private int howManyBigCard(List<Card> cards) {
@@ -110,7 +116,7 @@ public class CheckConditions {
         return i;
     }
 
-    private int allIN() {
-        return gameState.getCurrentPlayer(gameState).getStack();
+    private int allIn() {
+        return gameState.getCurrentPlayer().getStack();
     }
 }

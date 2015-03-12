@@ -5,20 +5,9 @@ import java.util.List;
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.wcs.poker.jsonconverter.JsonConverter;
 
 @Generated("org.jsonschema2pojo")
 public class GameState {
-    
-    private static Integer bigBlind;
-    private static List<Card> actHoleCards;
-    JsonConverter<Object> json;
-    static int actualGamerId;
-    static com.wcs.poker.gamestate.Player actualGamer;
-    static List<com.wcs.poker.gamestate.Player> gamers;
-    
-    
-    
 
     @SerializedName("small_blind")
     @Expose
@@ -187,40 +176,25 @@ public class GameState {
     public void setCommunityCards(List<Card> communityCards) {
         this.communityCards = communityCards;
     }
-    
-    
-    
+
     //Saját kód
-    
-     public static com.wcs.poker.gamestate.Player actualGamer(GameState gameState) {
-        actualGamerId = gameState.getInAction();
-        gamers = gameState.getPlayers();
-        actualGamer = gamers.get(actualGamerId);
-        return actualGamer;
-    }
-    
-    
-    
-    public static Integer requestBigBlind(GameState gameState) {
-        bigBlind = 2 * gameState.getSmallBlind();
-        return bigBlind;
+    public com.wcs.poker.gamestate.Player getCurrentPlayer() {
+        return players.get(inAction);
     }
 
-    public static List<Card> requestActHoleCards(GameState gameState) {
-        actHoleCards = getCurrentPlayer(gameState).getHoleCards();
-        return actHoleCards;
+    public Integer requestBigBlind() {
+        return 2 * smallBlind;
     }
 
-    public static com.wcs.poker.gamestate.Player getCurrentPlayer(GameState gameState) {
-        return gameState.getPlayers().get(gameState.getInAction());
+    public List<Card> requestActHoleCards() {
+        return getCurrentPlayer().getHoleCards();
     }
-
 
     public Integer getCall() {
         return currentBuyIn - players.get(inAction).getBet();
     }
-    
-    public Integer getMinimumBet(){
-    return currentBuyIn-players.get(inAction).getBet()+minimumRaise;
+
+    public Integer getMinimumBet() {
+        return currentBuyIn - players.get(inAction).getBet() + minimumRaise;
     }
 }
