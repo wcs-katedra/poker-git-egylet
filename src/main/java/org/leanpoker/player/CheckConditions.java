@@ -7,6 +7,7 @@ package org.leanpoker.player;
 
 import com.wcs.poker.gamestate.Card;
 import com.wcs.poker.gamestate.GameState;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class CheckConditions {
     private int bet;
     private GameState gameState;
     private List<String> bigRank = Arrays.asList("10", "J", "Q", "K", "A");
+    private List<Card> allCards = new ArrayList<>();
 
     public CheckConditions(GameState gameState) {
         this.gameState = gameState;
@@ -28,15 +30,8 @@ public class CheckConditions {
     public int check() {
         if (gameState.getCommunityCards().isEmpty()) {
             preFlop();
-        }
-        if (gameState.getCommunityCards().size() == 3) {
-            flop();
-        }
-        if (gameState.getCommunityCards().size() == 4) {
-            turn();
-        }
-        if (gameState.getCommunityCards().size() == 5) {
-            river();
+        } else {
+            afterPreFlop();
         }
 
         return bet;
@@ -85,6 +80,40 @@ public class CheckConditions {
         if (Math.random() * 100 < 50) {
             bet = gameState.getCall();
         } else {
+            bet = 0;
+        }
+    }
+
+    private void afterPreFlop() {
+        allCards.addAll(gameState.requestActHoleCards());
+        allCards.addAll(gameState.getCommunityCards());
+        HandChecker handChecker = new HandChecker(allCards);
+        int hand = handChecker.checkCards();
+
+        if (hand > 4) {
+            bet = allIn() - (int) (Math.random() * allIn() / 10);
+        }
+
+        if (hand >= 3 && hand <= 4) {
+            bet = (int) (allIn() / 2) - (int) (Math.random() * allIn() / 10);
+        }
+
+        if (hand == 2) {
+            bet = gameState.getCall() + 20;
+        }
+        if (hand == 1) {
+            bet = gameState.getCall() + 10;
+        }
+
+        if (hand == 0) {
+            if (Math.random() < 0.20) {
+                bet = gameState.getCall();
+            } else {
+                bet = 0;
+            }
+        }
+
+        if (gameState.getCall() > gameState.getCurrentPlayer().getStack() * 0.75 && hand < 5) {
             bet = 0;
         }
     }
