@@ -33,29 +33,26 @@ public class CheckConditions {
         } else {
             afterPreFlop();
         }
-
+        info();
         return bet;
     }
 
     private void preFlop() {
-        bet = gameState.getMinimumBet();
-
-        randNumber = Math.random();
+        bet = gameState.getCall();
         List<Card> cards = gameState.requestActHoleCards();
-        if (randNumber > 0.1) {
-            bet = 10;
-        } else {
-            bet = 0;
-        }
 
         if (isTwoBigCard(cards)) {
-            bet += 20;
+            bet += gameState.requestBigBlind() * 3;
         }
         if (isPair(cards)) {
-            bet += 30;
+            bet += gameState.requestBigBlind() * 3;
         }
         if (isPair(cards) && (cards.get(0).getRank().equals("A") || cards.get(0).getRank().equals("K"))) {
             bet = allIn();
+        }
+
+        if (Math.random() < 0.33 && howManyBigCard(cards) < 2 && !isPair(cards) && !isEqualColor(cards)) {
+            bet = 0;
         }
     }
 
@@ -85,6 +82,7 @@ public class CheckConditions {
     }
 
     private void afterPreFlop() {
+        allCards.clear();
         allCards.addAll(gameState.requestActHoleCards());
         allCards.addAll(gameState.getCommunityCards());
         HandChecker handChecker = new HandChecker(allCards);
@@ -147,5 +145,11 @@ public class CheckConditions {
 
     private int allIn() {
         return gameState.getCurrentPlayer().getStack();
+    }
+
+    private void info() {
+        System.out.println(gameState.requestActHoleCards()+","+gameState.getCommunityCards());
+        System.out.println(bet+"."+gameState.getMinimumBet()+"."+gameState.getMinimumRaise()+"."+gameState.getCall());
+        System.out.println("__________...róka fogta csuka...__________");
     }
 }

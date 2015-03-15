@@ -47,12 +47,6 @@ public class HandChecker {
             }
         }
 
-        for (int i = 0; i < rankCounter.length; i++) {
-            if (rankCounter[i] > 0) {
-                System.out.println(ranks.get(i) + ": " + rankCounter[i]);
-            }
-        }
-
         int pairSum = 0;
         for (int r : rankCounter) {
             if (r == 2) {
