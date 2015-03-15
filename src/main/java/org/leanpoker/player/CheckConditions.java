@@ -42,10 +42,18 @@ public class CheckConditions {
         List<Card> cards = gameState.requestActHoleCards();
 
         if (isTwoBigCard(cards)) {
-            bet += gameState.requestBigBlind() * 3;
+            if (gameState.requestBigBlind() <= 50) {
+                bet += gameState.requestBigBlind() * 2;
+            } else {
+                bet += 100;
+            }
         }
         if (isPair(cards)) {
-            bet += gameState.requestBigBlind() * 3;
+            if (gameState.requestBigBlind() <= 50) {
+                bet += gameState.requestBigBlind() * 2;
+            } else {
+                bet += 100;
+            }
         }
         if (isPair(cards) && (cards.get(0).getRank().equals("A") || cards.get(0).getRank().equals("K"))) {
             bet = allIn();
@@ -148,8 +156,8 @@ public class CheckConditions {
     }
 
     private void info() {
-        System.out.println(gameState.requestActHoleCards()+","+gameState.getCommunityCards());
-        System.out.println(bet+"."+gameState.getMinimumBet()+"."+gameState.getMinimumRaise()+"."+gameState.getCall());
+        System.out.println(gameState.requestActHoleCards() + "," + gameState.getCommunityCards());
+        System.out.println(bet + "." + gameState.getMinimumBet() + "." + gameState.getMinimumRaise() + "." + gameState.getCall());
         System.out.println("__________...róka fogta csuka...__________");
     }
 }
