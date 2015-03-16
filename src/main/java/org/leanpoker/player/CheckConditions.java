@@ -62,6 +62,9 @@ public class CheckConditions {
         if (Math.random() < 0.33 && howManyBigCard(cards) < 2 && !isPair(cards) && !isEqualColor(cards)) {
             bet = 0;
         }
+        if (bet==0 && weAreBlind()) {
+            bet=gameState.getCall();
+        }
     }
 
     private void flop() {
@@ -159,5 +162,9 @@ public class CheckConditions {
         System.out.println(gameState.requestActHoleCards() + "," + gameState.getCommunityCards());
         System.out.println(bet + "." + gameState.getMinimumBet() + "." + gameState.getMinimumRaise() + "." + gameState.getCall());
         System.out.println("__________...róka fogta csuka...__________");
+    }
+    private boolean weAreBlind(){
+    return ((gameState.getDealer()+1)%gameState.getPlayers().size()==gameState.getInAction()
+          ||(gameState.getDealer()+2)%gameState.getPlayers().size()==gameState.getInAction());
     }
 }
