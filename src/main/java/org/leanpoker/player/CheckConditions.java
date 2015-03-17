@@ -62,9 +62,9 @@ public class CheckConditions {
         if (Math.random() < 0.33 && howManyBigCard(cards) < 2 && !isPair(cards) && !isEqualColor(cards)) {
             bet = 0;
         }
-        if (bet==0 && weAreBlind()) {
-            bet=gameState.getCall();
-        }
+//        if (bet==0 && weAreBlind()) {
+//            bet=gameState.getCall();
+//        }
     }
 
     private void flop() {
