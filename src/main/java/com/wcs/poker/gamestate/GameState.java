@@ -208,4 +208,9 @@ public class GameState {
     public Integer getMinimumBet() {
         return currentBuyIn - players.get(inAction).getBet() + minimumRaise;
     }
+    
+    public boolean areWeBlind(){
+    return ((dealer+1)%players.size()==inAction
+          ||(dealer+2)%players.size()==inAction);
+    }
 }

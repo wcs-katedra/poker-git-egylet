@@ -8,7 +8,6 @@ package org.leanpoker.player;
 import com.wcs.poker.gamestate.Card;
 import com.wcs.poker.gamestate.GameState;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,10 +16,8 @@ import java.util.List;
  */
 public class CheckConditions {
 
-    private double randNumber;
     private int bet;
     private GameState gameState;
-    private List<String> bigRank = Arrays.asList("10", "J", "Q", "K", "A");
     private List<Card> allCards = new ArrayList<>();
 
     public CheckConditions(GameState gameState) {
@@ -33,7 +30,6 @@ public class CheckConditions {
         } else {
             afterPreFlop();
         }
-        info();
         return bet;
     }
 
@@ -62,35 +58,12 @@ public class CheckConditions {
         if (Math.random() < 0.33 && howManyBigCard(cards) < 2 && !isPair(cards) && !isEqualColor(cards)) {
             bet = 0;
         }
-//        if (bet==0 && weAreBlind()) {
-//            bet=gameState.getCall();
-//        }
-    }
-
-    private void flop() {
-        if (Math.random() * 100 < 70) {
-            bet = gameState.getCall();
-        } else {
-            bet = 0;
-        }
-
-    }
-
-    private void turn() {
-        if (Math.random() * 100 < 60) {
-            bet = gameState.getCall();
-        } else {
-            bet = 0;
+        
+        if (bet==0 && gameState.areWeBlind()) {
+            bet=gameState.getCall();
         }
     }
 
-    private void river() {
-        if (Math.random() * 100 < 50) {
-            bet = gameState.getCall();
-        } else {
-            bet = 0;
-        }
-    }
 
     private void afterPreFlop() {
         allCards.clear();
@@ -145,10 +118,10 @@ public class CheckConditions {
 
     private int howManyBigCard(List<Card> cards) {
         int i = 0;
-        if (bigRank.contains(cards.get(0).getRank())) {
+        if (cards.get(0).isBigCard()) {
             i++;
         }
-        if (bigRank.contains(cards.get(1).getRank())) {
+        if (cards.get(1).isBigCard()) {
             i++;
         }
         return i;
@@ -158,13 +131,4 @@ public class CheckConditions {
         return gameState.getCurrentPlayer().getStack();
     }
 
-    private void info() {
-        System.out.println(gameState.requestActHoleCards() + "," + gameState.getCommunityCards());
-        System.out.println(bet + "." + gameState.getMinimumBet() + "." + gameState.getMinimumRaise() + "." + gameState.getCall());
-        System.out.println("__________...róka fogta csuka...__________");
-    }
-    private boolean weAreBlind(){
-    return ((gameState.getDealer()+1)%gameState.getPlayers().size()==gameState.getInAction()
-          ||(gameState.getDealer()+2)%gameState.getPlayers().size()==gameState.getInAction());
-    }
 }
