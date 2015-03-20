@@ -25,6 +25,7 @@ public class CheckConditions {
     }
 
     public int check() {
+      
         if (gameState.getCommunityCards().isEmpty()) {
             preFlop();
         } else {
@@ -51,19 +52,18 @@ public class CheckConditions {
                 bet += 100;
             }
         }
-        if (isPair(cards) && (cards.get(0).getRank().equals("A") || cards.get(0).getRank().equals("K"))) {
+        if (AceOrKingPair(cards)) {
             bet = allIn();
         }
 
-        if (Math.random() < 0.33 && howManyBigCard(cards) < 2 && !isPair(cards) && !isEqualColor(cards)) {
+        if (isSHITuation(cards)) {
             bet = 0;
         }
-        
-        if (bet==0 && gameState.areWeBlind()) {
-            bet=gameState.getCall();
+
+        if (bet == 0 && gameState.areWeBlind()) {
+            bet = gameState.getCall();
         }
     }
-
 
     private void afterPreFlop() {
         allCards.clear();
@@ -100,12 +100,25 @@ public class CheckConditions {
         }
     }
 
-    private boolean isPair(List<Card> cards) {
-        return cards.get(0).getRank().equals(cards.get(1).getRank());
+    
+ 
+    
+    
+    
+    private boolean isSHITuation(List<Card> cards) {
+        return Math.random() < 0.33 && howManyBigCard(cards) < 2 && !isPair(cards) && !isEqualSuit(cards);
     }
 
-    private boolean isEqualColor(List<Card> cards) {
-        return cards.get(0).getSuit().equals(cards.get(1).getSuit());
+    private boolean AceOrKingPair(List<Card> cards) {
+        return isPair(cards) && (cards.get(0).getRank().equals("A") || cards.get(0).getRank().equals("K"));
+    }
+
+    private boolean isPair(List<Card> cards) {
+        return cards.get(0).isEqualRank(cards.get(1));
+    }
+
+    private boolean isEqualSuit(List<Card> cards) {        
+        return cards.get(0).isEqualSuit(cards.get(1));
     }
 
     private boolean isOneBigCard(List<Card> cards) {
@@ -131,4 +144,6 @@ public class CheckConditions {
         return gameState.getCurrentPlayer().getStack();
     }
 
+    
+    
 }

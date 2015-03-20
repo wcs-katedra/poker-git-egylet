@@ -13,7 +13,7 @@ public class Card {
     private String rank;
     @Expose
     private String suit;
-    
+   
     private static final List<String> bigRank = Arrays.asList("10", "J", "Q", "K", "A");
     
 

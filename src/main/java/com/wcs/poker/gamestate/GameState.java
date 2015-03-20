@@ -213,4 +213,15 @@ public class GameState {
     return ((dealer+1)%players.size()==inAction
           ||(dealer+2)%players.size()==inAction);
     }
+    
+    
+    public int activePlayers(){
+    int i=0;
+        for (Player player : players) {
+            if (player.getStatus().equals("active")) {
+                i++;
+            }
+        }
+        return i;
+    }
 }
