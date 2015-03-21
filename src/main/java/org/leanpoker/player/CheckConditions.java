@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.leanpoker.player;
 
 import com.wcs.poker.gamestate.Card;
 import com.wcs.poker.gamestate.GameState;
 import java.util.ArrayList;
 import java.util.List;
+import org.leanpoker.player.checkCards.CheckResult;
+import org.leanpoker.player.checkCards.Hand;
+import org.leanpoker.player.checkCards.HandChecker;
 
 /**
  *
@@ -25,7 +23,7 @@ public class CheckConditions {
     }
 
     public int check() {
-      
+
         if (gameState.getCommunityCards().isEmpty()) {
             preFlop();
         } else {
@@ -66,45 +64,54 @@ public class CheckConditions {
     }
 
     private void afterPreFlop() {
-        allCards.clear();
-        allCards.addAll(gameState.requestActHoleCards());
-        allCards.addAll(gameState.getCommunityCards());
-        HandChecker handChecker = new HandChecker(allCards);
-        int hand = handChecker.checkCards();
+        HandChecker handChecker = new HandChecker();
+        CheckResult checkResult = handChecker.getResult(gameState);
+        Hand hand = checkResult.getHand();
+        String highRank1 = checkResult.getHighRank1();
+        String highRank2 = checkResult.getHighRank2();
 
-        if (hand > 4) {
-            bet = allIn() - (int) (Math.random() * allIn() / 10);
-        }
+        switch (hand) {
+            case ROYAL_FLUSH:
+                bet = allIn();
+                break;
 
-        if (hand >= 3 && hand <= 4) {
-            bet = (int) (allIn() / 2) - (int) (Math.random() * allIn() / 10);
-        }
+            case STRAIGH_FLUSH:
+                bet = allIn();
+                break;
 
-        if (hand == 2) {
-            bet = gameState.getCall() + 20;
-        }
-        if (hand == 1) {
-            bet = gameState.getCall() + 10;
-        }
+            case POKER:
+                bet = allIn();
+                break;
 
-        if (hand == 0) {
-            if (Math.random() < 0.20) {
-                bet = gameState.getCall();
-            } else {
+            case FULL:
+                bet = (int) (allIn() / 2);
+                break;
+
+            case FLUSH:
+                bet = (int) (allIn() / 2);
+                break;
+
+            case STRAIGHT:
+                bet = (int) (allIn() / 2) - (int) (Math.random() * allIn() / 10);
+                break;
+
+            case DRILL:
+                bet = (int) (allIn() / 2) - (int) (Math.random() * allIn() / 10);
+                break;
+
+            case TWO_PAIR:
+                bet = gameState.getCall() + gameState.getMinimumRaise() + 20;
+                break;
+
+            case ONE_PAIR:
+                bet = gameState.getCall() + gameState.getMinimumRaise() + 10;
+                break;
+
+            case HIGH_CARD:
                 bet = 0;
-            }
-        }
-
-        if (gameState.getCall() > gameState.getCurrentPlayer().getStack() * 0.75 && hand < 5) {
-            bet = 0;
         }
     }
 
-    
- 
-    
-    
-    
     private boolean isSHITuation(List<Card> cards) {
         return Math.random() < 0.33 && howManyBigCard(cards) < 2 && !isPair(cards) && !isEqualSuit(cards);
     }
@@ -117,7 +124,7 @@ public class CheckConditions {
         return cards.get(0).isEqualRank(cards.get(1));
     }
 
-    private boolean isEqualSuit(List<Card> cards) {        
+    private boolean isEqualSuit(List<Card> cards) {
         return cards.get(0).isEqualSuit(cards.get(1));
     }
 
@@ -144,6 +151,4 @@ public class CheckConditions {
         return gameState.getCurrentPlayer().getStack();
     }
 
-    
-    
 }
