@@ -50,7 +50,7 @@ public class CheckConditions {
                 bet += 100;
             }
         }
-        if (AceOrKingPair(cards)) {
+        if (isAceOrKingPair(cards)) {
             bet = allIn();
         }
 
@@ -72,39 +72,196 @@ public class CheckConditions {
 
         switch (hand) {
             case ROYAL_FLUSH:
-                bet = allIn();
+                if (isFlop()) {
+                    raising(gameState.getSmallBlind()*2);
+                }
+                if (isTurn()) {
+                    raising(gameState.getSmallBlind()*3);
+                }
+                if (isRiver()) {
+                    raising(allIn());
+                }
+
                 break;
 
             case STRAIGH_FLUSH:
-                bet = allIn();
+                if (isFlop()) {
+                    raising(gameState.getSmallBlind()*2);
+                }
+                if (isTurn()) {
+                    raising(gameState.getSmallBlind()*3);
+                }
+                if (isRiver()) {
+                    raising(allIn());
+                }
                 break;
 
             case POKER:
-                bet = allIn();
+
+                if (isFlop()) {
+                    raising(gameState.getSmallBlind()*2);
+                }
+                if (isTurn()) {
+                    raising(gameState.getSmallBlind()*3);
+                }
+                if (isRiver()) {
+                    raising(allIn());
+                }
                 break;
 
             case FULL:
-                bet = (int) (allIn() / 2);
+                if (isFlop()) {
+                    raising(gameState.getSmallBlind()*2);
+                }
+                if (isTurn()) {
+                    raising(gameState.getSmallBlind()*3);
+                }
+                if (isRiver()) {
+                    raising(allIn());
+                }
                 break;
 
             case FLUSH:
-                bet = (int) (allIn() / 2);
+                if (isFlop()) {
+                    raising(gameState.getSmallBlind() * 2);
+                }
+                if (isTurn()) {
+                    raising(gameState.getSmallBlind() * 4);
+                }
+                if (isRiver()) {
+
+                    raising(gameState.getSmallBlind() * 5);
+                }
                 break;
 
             case STRAIGHT:
-                bet = (int) (allIn() / 2) - (int) (Math.random() * allIn() / 10);
+
+                if (Card.getBigRank().contains(highRank1)) {
+                    if (isFlop()) {
+                        raising(gameState.getSmallBlind());
+                    }
+                    if (isTurn()) {
+                        raising(gameState.getSmallBlind() * 3);
+                    }
+                    if (isRiver()) {
+
+                        raising(gameState.getSmallBlind() * 4);
+                    }
+
+                } else {
+                    if (isFlop()) {
+                        raising(gameState.getSmallBlind());
+                    }
+                    if (isTurn()) {
+                        raising(gameState.getSmallBlind() * 2);
+                    }
+                    if (isRiver()) {
+
+                        raising(gameState.getSmallBlind() * 3);
+                    }
+                }
                 break;
 
             case DRILL:
-                bet = (int) (allIn() / 2) - (int) (Math.random() * allIn() / 10);
+                if (Card.getBigRank().contains(highRank1)) {
+                    if (isFlop()) {
+                        raising(gameState.getSmallBlind());
+                    }
+                    if (isTurn()) {
+                        raising(gameState.getSmallBlind() * 2);
+                    }
+                    if (isRiver()) {
+
+                        raising(gameState.getSmallBlind() * 3);
+                    }
+
+                } else {
+                    if (isFlop()) {
+                        raising(gameState.getSmallBlind());
+                    }
+                    if (isTurn()) {
+                        raising(gameState.getSmallBlind());
+                    }
+                    if (isRiver()) {
+
+                        raising(gameState.getSmallBlind() * 2);
+                    }
+                }
+
                 break;
 
             case TWO_PAIR:
-                bet = gameState.getCall() + gameState.getMinimumRaise() + 20;
+                if (Card.getBigRank().contains(highRank1)) {
+                    if (isFlop()) {
+                        raising(gameState.getSmallBlind());
+                    }
+                    if (isTurn()) {
+                        raising(gameState.getSmallBlind() * 2);
+                    }
+                    if (isRiver()) {
+
+                        raising(gameState.getSmallBlind() * 3);
+                    }
+
+                } else {
+                    if (isFlop()) {
+                        raising(gameState.getSmallBlind());
+                    }
+                    if (isTurn()) {
+                        raising(gameState.getSmallBlind());
+                    }
+                    if (isRiver()) {
+
+                        raising(gameState.getSmallBlind() * 2);
+                    }
+                }
+
                 break;
 
             case ONE_PAIR:
-                bet = gameState.getCall() + gameState.getMinimumRaise() + 10;
+                if (Card.getBigRank().contains(highRank1)) {
+                 if (isFlop()) {
+                        if (allIn() > 500 && gameState.getMinimumBet() < 200) {
+                            gameState.getCall();
+                        } else {
+                            bet = 0;
+                        }
+                    }
+                    if (isTurn()) {
+                        if (allIn() > 500 && gameState.getMinimumBet() < 150) {
+                            gameState.getCall();
+                        } else {
+                            bet = 0;
+                        }
+                    }
+                    if (isRiver()) {
+                        if (allIn() > 500 && gameState.getMinimumBet() < 150) {
+                            gameState.getCall();
+                        } else {
+                            bet = 0;
+                        }
+                    }
+
+                } else {
+                    if (isFlop()) {
+                        if (allIn() > 500 && gameState.getMinimumBet() < 100) {
+                            gameState.getCall();
+                        } else {
+                            bet = 0;
+                        }
+                    }
+                    if (isTurn()) {
+                        if (allIn() > 500 && gameState.getMinimumBet() < 100) {
+                            gameState.getCall();
+                        } else {
+                            bet = 0;
+                        }
+                    }
+                    if (isRiver()) {
+                        bet=0;
+                    }
+                }
+
                 break;
 
             case HIGH_CARD:
@@ -112,11 +269,27 @@ public class CheckConditions {
         }
     }
 
+    private boolean isFlop() {
+        return gameState.getCommunityCards().size() == 3;
+    }
+
+    private boolean isTurn() {
+        return gameState.getCommunityCards().size() == 4;
+    }
+
+    private boolean isRiver() {
+        return gameState.getCommunityCards().size() == 5;
+    }
+
+    private void raising(int number) {
+        bet = gameState.getMinimumBet() + number;
+    }
+
     private boolean isSHITuation(List<Card> cards) {
         return Math.random() < 0.33 && howManyBigCard(cards) < 2 && !isPair(cards) && !isEqualSuit(cards);
     }
 
-    private boolean AceOrKingPair(List<Card> cards) {
+    private boolean isAceOrKingPair(List<Card> cards) {
         return isPair(cards) && (cards.get(0).getRank().equals("A") || cards.get(0).getRank().equals("K"));
     }
 

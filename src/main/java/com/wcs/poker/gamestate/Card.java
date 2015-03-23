@@ -10,6 +10,10 @@ public class Card {
 
     @Expose
     private String rank;
+
+    public static List<String> getBigRank() {
+        return bigRank;
+    }
     @Expose
     private String suit;
 
