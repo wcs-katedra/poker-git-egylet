@@ -17,7 +17,7 @@ public class Card {
     @Expose
     private String suit;
 
-    private static final List<String> bigRank = Arrays.asList("10", "J", "Q", "K", "A");
+    private static final List<String> bigRank = Arrays.asList("9","10", "J", "Q", "K", "A");
 
     public Card(String rank, String suit) {
         this.rank = rank;
