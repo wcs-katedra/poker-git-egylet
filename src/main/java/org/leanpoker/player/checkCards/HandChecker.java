@@ -22,7 +22,8 @@ public class HandChecker {
             new CheckStraight(),
             new CheckDrill(),
             new CheckTwoPair(),
-            new CheckOnePair());
+            new CheckOnePair(),
+            new CheckHighCard());
 
     public CheckResult getResult(GameState gameState) {
         allCards.clear();
