@@ -210,8 +210,10 @@ public class GameState {
     }
     
     public boolean areWeBlind(){
+     
+        
     return ((dealer+1)%players.size()==inAction
-          ||(dealer+2)%players.size()==inAction);
+          ||((dealer+2)%players.size()==inAction))&&(activePlayers()>2);
     }
     
     

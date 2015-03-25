@@ -54,7 +54,7 @@ public class CheckConditions {
                 break;
             case HIGH_CARD:
                 if (Card.getBigRank().contains(highRank1)) {
-                    if (gameState.getCall() < 150) {
+                    if (gameState.getCall() < gameState.requestBigBlind() * 5) {
                         if (allIn() > limit) {
                             bet = gameState.getCall();
                         } else {
@@ -74,7 +74,7 @@ public class CheckConditions {
         if (bet == 0 && gameState.areWeBlind() && gameState.getCall() <= gameState.requestBigBlind()) {
             bet = gameState.getCall();
         }
-        System.out.println("bet:"+bet);
+
     }
 
     private void afterPreFlop() {
@@ -237,7 +237,7 @@ public class CheckConditions {
                 if (Card.getBigRank().contains(highRank1)) {
                     if (isFlop()) {
 
-                        if (allIn() > limit && gameState.getCall() < 200) {
+                        if (allIn() > limit && gameState.getCall() < gameState.requestBigBlind() * 7) {
                             bet = gameState.getCall();
                         } else {
                             bet = 0;
@@ -245,7 +245,7 @@ public class CheckConditions {
                     }
                     if (isTurn()) {
 
-                        if (allIn() > limit && gameState.getCall() < 150) {
+                        if (allIn() > limit && gameState.getCall() < gameState.requestBigBlind() * 5) {
                             bet = gameState.getCall();
                         } else {
                             bet = 0;
@@ -254,7 +254,7 @@ public class CheckConditions {
                     if (isRiver()) {
 
                         System.out.println("allin: " + allIn() + "call: " + gameState.getCall());
-                        if (allIn() > limit && gameState.getCall() < 150) {
+                        if (allIn() > limit && gameState.getCall() < gameState.requestBigBlind() * 5) {
                             bet = gameState.getCall();
                             System.out.println("true");
                         } else {
@@ -265,14 +265,14 @@ public class CheckConditions {
 
                 } else {
                     if (isFlop()) {
-                        if (allIn() > limit && gameState.getCall() < 100) {
+                        if (allIn() > limit && gameState.getCall() < gameState.requestBigBlind()) {
                             bet = gameState.getCall();
                         } else {
                             bet = 0;
                         }
                     }
                     if (isTurn()) {
-                        if (allIn() > limit && gameState.getCall() < 100) {
+                        if (allIn() > limit && gameState.getCall() < gameState.requestBigBlind()) {
                             bet = gameState.getCall();
                         } else {
                             bet = 0;
@@ -288,7 +288,7 @@ public class CheckConditions {
             case HIGH_CARD:
                 bet = 0;
         }
-         System.out.println("bet:"+bet);
+
     }
 
     private boolean isFlop() {
