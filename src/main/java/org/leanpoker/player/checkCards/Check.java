@@ -16,17 +16,19 @@ public abstract class Check {
     protected Hand hand;
     protected String highRank1;
     protected String highRank2;
+    protected int myCardsOfHand;
 
     public CheckResult getResult(List<Card> cards) {
         hand = null;
         highRank1 = "";
         highRank2 = "";
+        myCardsOfHand = 0;
         this.cards = cards;
         check();
         if (hand == null) {
             return null;
         } else {
-            return new CheckResult(hand, highRank1, highRank2);
+            return new CheckResult(hand, highRank1, highRank2, myCardsOfHand);
         }
     }
 
@@ -51,5 +53,15 @@ public abstract class Check {
             }
         }
         return i;
+    }
+
+    protected boolean haveCardAs(String rank, String suit) {
+        boolean have = false;
+        for (Card card : cards) {
+            if (card.equals(rank, suit)) {
+                have = true;
+            }
+        }
+        return have;
     }
 }

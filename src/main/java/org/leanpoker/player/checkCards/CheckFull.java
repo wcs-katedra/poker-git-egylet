@@ -1,5 +1,6 @@
 package org.leanpoker.player.checkCards;
 
+import com.wcs.poker.gamestate.Card;
 import static org.leanpoker.player.checkCards.Check.*;
 
 /**
@@ -24,6 +25,15 @@ public class CheckFull extends Check {
                 if (countRank(rank) == 2) {
                     highRank2 = rank;
                     hand = Hand.FULL;
+                }
+            }
+        }
+
+        //myCardsOfHand kiszámítása:
+        if (hand != null) {
+            for (Card card : cards) {
+                if (card.isInMyHand() && (card.getRank().equals(highRank1) || card.getRank().equals(highRank2))) {
+                    myCardsOfHand++;
                 }
             }
         }

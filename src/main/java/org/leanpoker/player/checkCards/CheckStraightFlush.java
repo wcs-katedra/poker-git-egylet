@@ -1,6 +1,7 @@
 package org.leanpoker.player.checkCards;
 
 import com.wcs.poker.gamestate.Card;
+import java.util.Arrays;
 import static org.leanpoker.player.checkCards.Check.*;
 
 /**
@@ -12,25 +13,37 @@ public class CheckStraightFlush extends Check {
     @Override
     protected void check() {
         CheckResult straightCheckResult = new CheckStraight().getResult(cards);
+        String[] ranksOfStraight = null;
+        String flushSuit = "";
         if (straightCheckResult != null) {
-            boolean isFlush = true;
+            boolean isFlush = false;
             int highRankIndex = ranks.indexOf(straightCheckResult.getHighRank1());
-            String[] ranksOfStraight = getRanksOfStraight(highRankIndex);
+            ranksOfStraight = getRanksOfStraight(highRankIndex);
             for (String suit : suits) {
-                isFlush = true;
-                for (String rank : ranksOfStraight) {
-                    if (countRank(rank) > 0 && countSuit(suit) > 0) {
-                        isFlush = false;
-                        break;
+                if (!isFlush) {
+                    flushSuit = suit;
+                    isFlush = true;
+
+                    for (String rank : ranksOfStraight) {
+                        if (!haveCardAs(rank, suit)) {
+                            isFlush = false;
+                            break;
+                        }
                     }
-                }
-                if (isFlush) {
-                    break;
                 }
             }
             if (isFlush) {
                 highRank1 = straightCheckResult.getHighRank1();
                 hand = Hand.STRAIGH_FLUSH;
+            }
+
+            //myCardsOfHand kiszámítása:
+            if (hand != null) {
+                for (Card card : cards) {
+                    if (card.isInMyHand() && card.isEqualSuit(flushSuit) && Arrays.asList(ranksOfStraight).contains(card.getRank())) {
+                        myCardsOfHand++;
+                    }
+                }
             }
         }
     }
