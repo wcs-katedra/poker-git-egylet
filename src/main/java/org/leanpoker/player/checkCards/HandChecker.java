@@ -11,7 +11,7 @@ import java.util.List;
  * @author imate
  */
 public class HandChecker {
-    
+
     private List<Card> allCards = new ArrayList<>();
     private static final List<Check> checkers = Arrays.asList(
             new CheckRoyalFlush(),
@@ -24,7 +24,7 @@ public class HandChecker {
             new CheckTwoPair(),
             new CheckOnePair(),
             new CheckHighCard());
-    
+
     public CheckResult getResult(GameState gameState) {
         setMyCards(gameState);
         allCards.clear();
@@ -32,14 +32,14 @@ public class HandChecker {
         allCards.addAll(gameState.getCommunityCards());
         CheckResult result = null;
         for (Check checker : checkers) {
-            if (checker.getResult(allCards) != null) {
+            if (checker.isApplicable(allCards)) {
                 result = checker.getResult(allCards);
                 break;
             }
         }
         return result;
     }
-    
+
     private void setMyCards(GameState gameState) {
         for (Card card : gameState.requestActHoleCards()) {
             card.setInMyHand(true);

@@ -32,7 +32,10 @@ public abstract class Check {
         }
     }
 
-    protected void check() {
+    protected abstract void check();
+
+    public boolean isApplicable(List<Card> cards) {
+        return getResult(cards) != null;
     }
 
     protected int countRank(String rank) {

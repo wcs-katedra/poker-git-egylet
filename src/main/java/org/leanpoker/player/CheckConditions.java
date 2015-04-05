@@ -7,6 +7,7 @@ import java.util.List;
 import org.leanpoker.player.checkCards.CheckResult;
 import org.leanpoker.player.checkCards.Hand;
 import org.leanpoker.player.checkCards.HandChecker;
+import org.leanpoker.player.strategies.*;
 
 /**
  *
@@ -30,6 +31,26 @@ public class CheckConditions {
         } else {
             afterPreFlop();
         }
+
+//        Strategy strategy = null;
+//        switch (gameState.getCommunityCards().size()) {
+//            case 0:
+//                strategy = new PreFlopStrategy();
+//                break;
+//            case 3:
+//                strategy = new FlopStrategy();
+//                break;
+//            case 4:
+//                strategy = new TurnStrategy();
+//                break;
+//            case 5:
+//                strategy = new RiverStrategy();
+//                break;
+//        }
+//        if (strategy != null) {
+//            bet = strategy.calculateBet(gameState);
+//        }
+
         return bet;
     }
 
