@@ -1,6 +1,7 @@
 package org.leanpoker.player.checkCards;
 
 import com.wcs.poker.gamestate.Card;
+import org.git_egylet.tools.Tools;
 import static org.leanpoker.player.checkCards.Check.*;
 
 /**
@@ -8,6 +9,8 @@ import static org.leanpoker.player.checkCards.Check.*;
  * @author imate
  */
 public class CheckStraight extends Check {
+
+    private String[] ranksOfStraight;
 
     @Override
     protected void check() {
@@ -31,24 +34,17 @@ public class CheckStraight extends Check {
         }
 
         if (isStraight) {
-            hand = Hand.STRAIGHT;
+            handRank = HandRank.STRAIGHT;
         }
 
-        //myCardsOfHand kiszámítása:
-        if (hand != null) {
-            String[] ranksOfStraight = getRanksOfStraight(ranks.indexOf(highRank1));
-            for (Card card : cards) {
-                for (String rank : ranksOfStraight) {
-                    if (card.isInMyHand() && card.isEqualRank(rank)) {
-                        myCardsOfHand++;
-                    }
-                }
-            }
+        if (handRank != null) {
+            calcMyCardsOfHand();
+            makeOrderedCardList();
         }
     }
 
     private String[] getRanksOfStraight(int highRankIndex) {
-        String[] ranksOfStraight = new String[5];
+        ranksOfStraight = new String[5];
         ranksOfStraight[4] = ranks.get(highRankIndex);
         ranksOfStraight[3] = ranks.get(highRankIndex - 1);
         ranksOfStraight[2] = ranks.get(highRankIndex - 2);
@@ -59,6 +55,32 @@ public class CheckStraight extends Check {
             ranksOfStraight[0] = "A";
         }
         return ranksOfStraight;
+    }
+
+    @Override
+    protected void calcMyCardsOfHand() {
+        ranksOfStraight = getRanksOfStraight(ranks.indexOf(highRank1));
+        for (Card card : cards) {
+            for (String rank : ranksOfStraight) {
+                if (card.isInMyHand() && card.isEqualRank(rank)) {
+                    myCardsOfHand++;
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void makeOrderedCardList() {
+        String rank;
+        for (int i = ranksOfStraight.length - 1; i >= 0; i--) {
+            rank = ranksOfStraight[i];
+            for (Card card : cards) {
+                if (card.isEqualRank(rank)) {
+                    orderedCardList.add(card);
+                    break;
+                }
+            }
+        }
     }
 
 }

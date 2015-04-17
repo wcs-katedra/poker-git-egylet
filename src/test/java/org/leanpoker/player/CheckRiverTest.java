@@ -10,7 +10,7 @@ import org.git_egylet.tools.Tools;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.leanpoker.player.checkCards.CheckRiver;
-import org.leanpoker.player.checkCards.Hand;
+import org.leanpoker.player.checkCards.HandRank;
 
 /**
  *
@@ -25,7 +25,7 @@ public class CheckRiverTest {
         
         CheckRiver cRiver=new CheckRiver(gameState);
         
-        assertTrue(cRiver.mayCombination()==Hand.DRILL);
+        assertTrue(cRiver.mayCombination()==HandRank.DRILL);
     }
     
     @Test
@@ -35,7 +35,7 @@ public class CheckRiverTest {
         
         CheckRiver cRiver=new CheckRiver(gameState);
         
-        assertTrue(cRiver.mayCombination()==Hand.ROYAL_FLUSH);
+        assertTrue(cRiver.mayCombination()==HandRank.ROYAL_FLUSH);
     }
     
 }

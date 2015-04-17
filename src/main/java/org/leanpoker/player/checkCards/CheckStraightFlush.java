@@ -2,6 +2,7 @@ package org.leanpoker.player.checkCards;
 
 import com.wcs.poker.gamestate.Card;
 import java.util.Arrays;
+import org.git_egylet.tools.Tools;
 import static org.leanpoker.player.checkCards.Check.*;
 
 /**
@@ -10,11 +11,12 @@ import static org.leanpoker.player.checkCards.Check.*;
  */
 public class CheckStraightFlush extends Check {
 
+    private String flushSuit = "";
+    private String[] ranksOfStraight = null;
+
     @Override
     protected void check() {
         CheckResult straightCheckResult = new CheckStraight().getResult(cards);
-        String[] ranksOfStraight = null;
-        String flushSuit = "";
         if (straightCheckResult != null) {
             boolean isFlush = false;
             int highRankIndex = ranks.indexOf(straightCheckResult.getHighRank1());
@@ -34,22 +36,18 @@ public class CheckStraightFlush extends Check {
             }
             if (isFlush) {
                 highRank1 = straightCheckResult.getHighRank1();
-                hand = Hand.STRAIGH_FLUSH;
+                handRank = HandRank.STRAIGH_FLUSH;
             }
 
-            //myCardsOfHand kiszámítása:
-            if (hand != null) {
-                for (Card card : cards) {
-                    if (card.isInMyHand() && card.isEqualSuit(flushSuit) && Arrays.asList(ranksOfStraight).contains(card.getRank())) {
-                        myCardsOfHand++;
-                    }
-                }
+            if (handRank != null) {
+                calcMyCardsOfHand();
+                makeOrderedCardList();
             }
         }
     }
 
     private String[] getRanksOfStraight(int highRankIndex) {
-        String[] ranksOfStraight = new String[5];
+        ranksOfStraight = new String[5];
         ranksOfStraight[4] = ranks.get(highRankIndex);
         ranksOfStraight[3] = ranks.get(highRankIndex - 1);
         ranksOfStraight[2] = ranks.get(highRankIndex - 2);
@@ -62,4 +60,26 @@ public class CheckStraightFlush extends Check {
         return ranksOfStraight;
     }
 
+    @Override
+    protected void calcMyCardsOfHand() {
+        for (Card card : cards) {
+            if (card.isInMyHand() && card.isEqualSuit(flushSuit) && Arrays.asList(ranksOfStraight).contains(card.getRank())) {
+                myCardsOfHand++;
+            }
+        }
+    }
+
+    @Override
+    protected void makeOrderedCardList() {
+        String rank;
+        for (int i = ranksOfStraight.length - 1; i >= 0; i--) {
+            rank = ranksOfStraight[i];
+            for (Card card : cards) {
+                if (card.isEqualRank(rank) && card.isEqualSuit(flushSuit)) {
+                    orderedCardList.add(card);
+                    break;
+                }
+            }
+        }
+    }
 }

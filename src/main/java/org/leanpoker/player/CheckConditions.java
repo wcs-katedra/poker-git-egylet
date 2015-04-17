@@ -5,7 +5,7 @@ import com.wcs.poker.gamestate.GameState;
 import java.util.ArrayList;
 import java.util.List;
 import org.leanpoker.player.checkCards.CheckResult;
-import org.leanpoker.player.checkCards.Hand;
+import org.leanpoker.player.checkCards.HandRank;
 import org.leanpoker.player.checkCards.HandChecker;
 import org.leanpoker.player.strategies.*;
 
@@ -57,7 +57,7 @@ public class CheckConditions {
     private void preFlop() {
         HandChecker handChecker = new HandChecker();
         CheckResult checkResult = handChecker.getResult(gameState);
-        Hand hand = checkResult.getHand();
+        HandRank hand = checkResult.getHand();
         String highRank1 = checkResult.getHighRank1();
 
         switch (hand) {
@@ -101,7 +101,7 @@ public class CheckConditions {
     private void afterPreFlop() {
         HandChecker handChecker = new HandChecker();
         CheckResult checkResult = handChecker.getResult(gameState);
-        Hand hand = checkResult.getHand();
+        HandRank hand = checkResult.getHand();
         String highRank1 = checkResult.getHighRank1();
         String highRank2 = checkResult.getHighRank2();
 

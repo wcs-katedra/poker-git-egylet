@@ -1,6 +1,8 @@
 package org.leanpoker.player.checkCards;
 
 import com.wcs.poker.gamestate.Card;
+import java.util.List;
+import org.git_egylet.tools.Tools;
 import static org.leanpoker.player.checkCards.Check.*;
 
 /**
@@ -9,17 +11,18 @@ import static org.leanpoker.player.checkCards.Check.*;
  */
 public class CheckFlush extends Check {
 
+    private String flushSuit = "";
+
     @Override
     protected void check() {
-        String flushSuit = "";
         for (String suit : suits) {
             if (countSuit(suit) >= 5) {
-                hand = Hand.FLUSH;
+                handRank = HandRank.FLUSH;
                 flushSuit = suit;
             }
         }
         //legmagasabb lap kiszámítása flush esetén
-        if (hand == hand.FLUSH) {
+        if (handRank == handRank.FLUSH) {
             for (String rank : ranks) {
                 if (countRank(rank) > 0) {
                     highRank1 = rank;
@@ -27,14 +30,29 @@ public class CheckFlush extends Check {
             }
         }
 
-        //myCardsOfHand kiszámítása:
-        if (hand != null) {
-            for (Card card : cards) {
-                if (card.isInMyHand() && card.getSuit().equals(flushSuit)) {
-                    myCardsOfHand++;
-                }
+        if (handRank != null) {
+            calcMyCardsOfHand();
+            makeOrderedCardList();
+        }
+    }
+
+    @Override
+    protected void calcMyCardsOfHand() {
+        for (Card card : cards) {
+            if (card.isInMyHand() && card.getSuit().equals(flushSuit)) {
+                myCardsOfHand++;
             }
         }
+    }
+
+    @Override
+    protected void makeOrderedCardList() {
+        for (Card card : cards) {
+            if (card.isEqualSuit(flushSuit)) {
+                orderedCardList.add(card);
+            }
+        }
+        orderedCardList = Tools.orderCards(orderedCardList);
     }
 
 }

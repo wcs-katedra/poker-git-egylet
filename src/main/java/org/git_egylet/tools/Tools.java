@@ -1,8 +1,11 @@
 package org.git_egylet.tools;
 
 import com.wcs.poker.gamestate.Card;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,5 +33,12 @@ public class Tools {
             }
         }
         return holeCards;
+    }
+    
+    public static List<Card> orderCards(List<Card> cards) {
+        List<Card> orderedCards = new ArrayList<>();
+        orderedCards.addAll(cards);
+        Collections.sort(orderedCards,new RankComparator());
+        return orderedCards;
     }
 }

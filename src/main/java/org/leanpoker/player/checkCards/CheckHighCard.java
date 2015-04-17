@@ -1,7 +1,6 @@
 package org.leanpoker.player.checkCards;
 
-import com.wcs.poker.gamestate.Card;
-import static org.leanpoker.player.checkCards.Check.*;
+import org.git_egylet.tools.Tools;
 
 /**
  *
@@ -11,13 +10,26 @@ public class CheckHighCard extends Check {
 
     @Override
     protected void check() {
-        for (String rank : ranks) {
-            for (Card card : cards) {
-                if (card.isInMyHand() && card.isEqualRank(rank)) {
-                    highRank1 = rank;
-                    hand = Hand.HIGH_CARD;
-                    myCardsOfHand = 1;
-                }
+        handRank = HandRank.HIGH_CARD;
+        makeOrderedCardList();
+        highRank1 = orderedCardList.get(0).getRank();
+        highRank2 = orderedCardList.get(1).getRank();
+    }
+
+    @Override
+    protected void calcMyCardsOfHand() {
+    }
+
+    @Override
+    protected void makeOrderedCardList() {
+        cards = Tools.orderCards(cards);
+        int i = 0;
+        if (cards.size() == 2) {
+            orderedCardList.addAll(cards);
+        } else {
+            while (orderedCardList.size() < 5) {
+                orderedCardList.add(cards.get(i));
+                i++;
             }
         }
     }

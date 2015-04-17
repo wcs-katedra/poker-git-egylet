@@ -27,12 +27,12 @@ public class CheckRiver {
     
     
     
-    public Hand mayCombination(){
-        Hand combination=null;
+    public HandRank mayCombination(){
+        HandRank combination=null;
         CheckResult result=cPair.getResult(gState.getCommunityCards());
         
         if (result!=null) {
-            combination=Hand.DRILL;
+            combination=HandRank.DRILL;
         }
         
         
@@ -45,7 +45,7 @@ public class CheckRiver {
                 }
             }
             if (count==4) {
-                combination=Hand.ROYAL_FLUSH;
+                combination=HandRank.ROYAL_FLUSH;
             }
             count=0;
         }

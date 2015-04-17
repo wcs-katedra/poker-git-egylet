@@ -7,7 +7,7 @@ package org.leanpoker.player.strategies;
 
 import com.wcs.poker.gamestate.GameState;
 import org.leanpoker.player.checkCards.CheckResult;
-import org.leanpoker.player.checkCards.Hand;
+import org.leanpoker.player.checkCards.HandRank;
 import org.leanpoker.player.checkCards.HandChecker;
 
 /**
@@ -16,7 +16,7 @@ import org.leanpoker.player.checkCards.HandChecker;
  */
 public abstract class Strategy {
 
-    protected Hand hand;
+    protected HandRank hand;
     protected String highRank1;
     protected String highRank2;
     protected int myCardsOfHand;

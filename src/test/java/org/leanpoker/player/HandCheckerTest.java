@@ -7,7 +7,7 @@ import org.junit.Test;
 import com.wcs.poker.gamestate.Player;
 import org.git_egylet.tools.Tools;
 import org.leanpoker.player.checkCards.CheckResult;
-import org.leanpoker.player.checkCards.Hand;
+import org.leanpoker.player.checkCards.HandRank;
 import org.leanpoker.player.checkCards.HandChecker;
 
 /**
@@ -27,9 +27,9 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.HIGH_CARD);
-        assertEquals(result.getHighRank1(), "J");
-        assertEquals(result.getHighRank2(), "");
+        assertEquals(result.getHand(), HandRank.HIGH_CARD);
+        assertEquals(result.getHighRank1(), "Q");
+        assertEquals(result.getHighRank2(), "J");
     }
 
     @Test
@@ -39,7 +39,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.ONE_PAIR);
+        assertEquals(result.getHand(), HandRank.ONE_PAIR);
         assertEquals(result.getHighRank1(), "4");
         assertEquals(result.getHighRank2(), "");
         assertEquals(result.getMyCardsOfHand(), 1);
@@ -52,7 +52,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.TWO_PAIR);
+        assertEquals(result.getHand(), HandRank.TWO_PAIR);
         assertEquals(result.getHighRank1(), "6");
         assertEquals(result.getHighRank2(), "2");
         assertEquals(result.getMyCardsOfHand(), 2);
@@ -66,7 +66,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.DRILL);
+        assertEquals(result.getHand(), HandRank.DRILL);
         assertEquals(result.getHighRank1(), "J");
         assertEquals(result.getHighRank2(), "");
         assertEquals(result.getMyCardsOfHand(), 2);
@@ -79,7 +79,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.STRAIGHT);
+        assertEquals(result.getHand(), HandRank.STRAIGHT);
         assertEquals(result.getHighRank1(), "9");
         assertEquals(result.getHighRank2(), "");
         assertEquals(result.getMyCardsOfHand(), 1);
@@ -92,7 +92,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.FLUSH);
+        assertEquals(result.getHand(), HandRank.FLUSH);
         assertEquals(result.getHighRank1(), "J");
         assertEquals(result.getHighRank2(), "");
         assertEquals(result.getMyCardsOfHand(), 1);
@@ -105,7 +105,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.FULL);
+        assertEquals(result.getHand(), HandRank.FULL);
         assertEquals(result.getHighRank1(), "J");
         assertEquals(result.getHighRank2(), "5");
         assertEquals(result.getMyCardsOfHand(), 1);
@@ -119,7 +119,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.POKER);
+        assertEquals(result.getHand(), HandRank.POKER);
         assertEquals(result.getHighRank1(), "8");
         assertEquals(result.getHighRank2(), "");
         assertEquals(result.getMyCardsOfHand(), 2);
@@ -132,7 +132,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.STRAIGH_FLUSH);
+        assertEquals(result.getHand(), HandRank.STRAIGH_FLUSH);
         assertEquals(result.getHighRank1(), "7");
         assertEquals(result.getHighRank2(), "");
         assertEquals(result.getMyCardsOfHand(), 2);
@@ -145,7 +145,7 @@ public class HandCheckerTest {
         gameState.setPlayers(Arrays.asList(player1));
 
         CheckResult result = handChecker.getResult(gameState);
-        assertEquals(result.getHand(), Hand.ROYAL_FLUSH);
+        assertEquals(result.getHand(), HandRank.ROYAL_FLUSH);
         assertEquals(result.getHighRank1(), "");
         assertEquals(result.getHighRank2(), "");
         assertEquals(result.getMyCardsOfHand(), 1);
