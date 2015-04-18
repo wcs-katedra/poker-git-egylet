@@ -2,7 +2,6 @@ package com.wcs.poker.hand;
 
 import com.wcs.poker.gamestate.Card;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import org.leanpoker.player.checkCards.HandRank;
 
@@ -17,7 +16,7 @@ public class Hand {
 
     public Hand(HandRank rank, List<Card> cards) {
         this.rank = rank;
-        this.cards = Collections.unmodifiableCollection(cards);
+        this.cards = cards;
     }
 
     public HandRank getRank() {
