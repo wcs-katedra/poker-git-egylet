@@ -16,6 +16,7 @@ import org.leanpoker.player.checkCards.HandChecker;
  */
 public class HandCheckerTest {
 
+    
     final GameState gameState = new GameState(10, 320, 400, 241, 0, 7, 0);
     Player player1 = new Player(1, "Albert", "active", "Default random player", 1590, 80);
     HandChecker handChecker = new HandChecker();

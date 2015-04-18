@@ -4,6 +4,7 @@ import com.wcs.poker.gamestate.Card;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.leanpoker.player.checkCards.HandRank;
 
 /**
  *

@@ -3,18 +3,26 @@ package com.wcs.poker.hand;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wcs.poker.gamestate.Card;
+import com.wcs.poker.gamestate.GameState;
+import com.wcs.poker.gamestate.Player;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.core.Is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.leanpoker.player.checkCards.CheckResult;
+import org.leanpoker.player.checkCards.HandChecker;
+import org.leanpoker.player.checkCards.HandRank;
+import static org.junit.Assert.assertEquals;
 
 
 /**
@@ -24,10 +32,16 @@ import org.junit.Test;
 public class HandRankingServiceTest {
     
     private HandRankingService handRankingService;
+    private GameState gameState;
+    private Player player;
+    private HandChecker handChecker;
     
     @Before
     public void setUp() {
         handRankingService = new HandRankingService();
+        gameState=new GameState(10, 320, 400, 241, 0, 7, 0);
+        player = new Player(1, "Albert", "active", "Default random player", 1590, 80);
+        handChecker = new HandChecker();
     }
     
     @Ignore
@@ -42,95 +56,117 @@ public class HandRankingServiceTest {
         handRankingService.evaulate(Collections.nCopies(8, (Card) null));
     }
 
-    @Ignore
     @Test
     public void testEvaulateRoyalFlushHand() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("royalFlushHandTestDataSet.json"));
+        player.setHoleCards(loadCards("royalFlushHandTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("royalFlushHandTestDataSet.json").subList(2, 7));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.ROYAL_FLUSH));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("royalFlushHand.json")));
+        assertThat(result.getHand(), Is.is(HandRank.ROYAL_FLUSH));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("royalFlushHand.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulateStraightFlush() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("straightFlushHandTestDataSet.json"));
+        player.setHoleCards(loadCards("straightFlushHandTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("straightFlushHandTestDataSet.json").subList(2, 7));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.STRAIGHT_FLUSH));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("straightFlush.json")));
+        assertThat(result.getHand(), Is.is(HandRank.STRAIGH_FLUSH));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("straightFlush.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulateFourOfAKind() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("fourOfAKindTestDataSet.json"));
+        player.setHoleCards(loadCards("fourOfAKindTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("fourOfAKindTestDataSet.json").subList(2, 6));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.FOUR_OF_A_KIND));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("fourOfAKindHand.json")));
+        assertThat(result.getHand(), Is.is(HandRank.POKER));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("fourOfAKindHand.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulateFullHouse() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("fullHouseTestDataSet.json"));
+        player.setHoleCards(loadCards("fullHouseTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("fullHouseTestDataSet.json").subList(2, 6));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.FULL_HOUSE));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("fullHouseHand.json")));
+        assertThat(result.getHand(), Is.is(HandRank.FULL));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("fullHouseHand.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulateFlush() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("flushTestDataSet.json"));
+        player.setHoleCards(loadCards("flushTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("flushTestDataSet.json").subList(2, 6));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.FLUSH));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("flushHand.json")));
+        assertThat(result.getHand(), Is.is(HandRank.FLUSH));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("flushHand.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulateStraight() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("straightTestDataSet.json"));
+        player.setHoleCards(loadCards("straightTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("straightTestDataSet.json").subList(2, 7));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.STRAIGHT));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("straightHand.json")));
+        assertThat(result.getHand(), Is.is(HandRank.STRAIGHT));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("straightHand.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulateThreeOfAKind() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("threeOfAKindTestDataSet.json"));
+        player.setHoleCards(loadCards("threeOfAKindTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("threeOfAKindTestDataSet.json").subList(2, 7));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.THREE_OF_A_KIND));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("threeOfAKindHand.json")));
+        assertThat(result.getHand(), Is.is(HandRank.DRILL));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("threeOfAKindHand.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulateTwoPairs() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("twoPairsTestDataSet.json"));
+        player.setHoleCards(loadCards("twoPairsTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("twoPairsTestDataSet.json").subList(2, 5));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.TWO_PAIRS));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("twoPairsHand.json")));
+        assertThat(result.getHand(), Is.is(HandRank.TWO_PAIR));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("twoPairsHand.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulatePair() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("pairTestDataSet.json"));
+        player.setHoleCards(loadCards("pairTestDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("pairTestDataSet.json").subList(2, 5));
+        CheckResult result = handChecker.getResult(gameState);
         
-        assertThat(hand.getRank(), Is.is(HandRank.PAIR));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("pairHand.json")));
+        assertThat(result.getHand(), Is.is(HandRank.ONE_PAIR));
+        //assertThat(result.getCards(), Is.is((Collection) loadCards("pairHand.json")));
     }
     
-    @Ignore
     @Test
     public void testEvaulateHighCard() throws Exception {
-        Hand hand = handRankingService.evaulate(loadCards("highCardDataSet.json"));
-        
-        assertThat(hand.getRank(), Is.is(HandRank.HIGH_CARD));
-        assertThat(hand.getCards(), Is.is((Collection) loadCards("highCardHand.json")));
+        player.setHoleCards(loadCards("highCardDataSet.json").subList(0, 2));
+        gameState.setPlayers(Arrays.asList(player));
+        gameState.setCommunityCards(loadCards("highCardDataSet.json").subList(2, 6));
+        CheckResult result = handChecker.getResult(gameState);
+             
+        assertThat(result.getHand(), Is.is(HandRank.HIGH_CARD));
+        //assertThat(result.getCards(),Is.is((Collection) loadCards("highCardHand.json")));
     }
+    
+    
 
     private List<Card> loadCards(String name) throws IOException {
         InputStream resource = getClass().getResourceAsStream(name);
