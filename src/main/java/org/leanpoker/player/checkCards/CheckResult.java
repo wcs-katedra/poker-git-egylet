@@ -22,7 +22,7 @@ public class CheckResult {
         this.highRank1 = highRank1;
         this.highRank2 = highRank2;
         this.myCardsOfHand = myCardsOfHand;
-        this.cards = Collections.unmodifiableCollection(cards);
+        this.cards = cards;
     }
 
     public HandRank getHand() {

@@ -35,11 +35,9 @@ public class CheckTwoPair extends Check {
 
     @Override
     protected void calcMyCardsOfHand() {
-        if (handRank != null) {
-            for (Card card : cards) {
-                if (card.isInMyHand() && (card.getRank().equals(highRank1) || card.getRank().equals(highRank2))) {
-                    myCardsOfHand++;
-                }
+        for (Card card : cards) {
+            if (card.isInMyHand() && (card.getRank().equals(highRank1) || card.getRank().equals(highRank2))) {
+                myCardsOfHand++;
             }
         }
     }

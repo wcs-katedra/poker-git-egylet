@@ -38,12 +38,10 @@ public class CheckRoyalFlush extends Check {
 
     @Override
     protected void calcMyCardsOfHand() {
-        if (handRank != null) {
-            for (Card card : cards) {
-                for (String rank : royalRanks) {
-                    if (card.isInMyHand() && card.equals(rank, flushSuit)) {
-                        myCardsOfHand++;
-                    }
+        for (Card card : cards) {
+            for (String rank : royalRanks) {
+                if (card.isInMyHand() && card.equals(rank, flushSuit)) {
+                    myCardsOfHand++;
                 }
             }
         }
@@ -55,7 +53,7 @@ public class CheckRoyalFlush extends Check {
         for (int i = royalRanks.length - 1; i >= 0; i--) {
             rank = royalRanks[i];
             for (Card card : cards) {
-                if (card.isEqualRank(rank)&& card.isEqualSuit(flushSuit)) {
+                if (card.isEqualRank(rank) && card.isEqualSuit(flushSuit)) {
                     orderedCardList.add(card);
                 }
             }

@@ -75,7 +75,7 @@ public class Card {
     public boolean isEqualRank(Card other) {
         return this.rank.equals(other.getRank());
     }
-    
+
     public boolean isEqualRank(String otherRank) {
         return this.rank.equals(otherRank);
     }
@@ -83,7 +83,7 @@ public class Card {
     public boolean isEqualSuit(Card other) {
         return this.suit.equals(other.getSuit());
     }
-    
+
     public boolean isEqualSuit(String otherSuit) {
         return this.suit.equals(otherSuit);
     }
