@@ -5,10 +5,12 @@
  */
 package org.leanpoker.player.strategies;
 
+import com.wcs.poker.gamestate.Card;
 import com.wcs.poker.gamestate.GameState;
+import java.util.List;
 import org.leanpoker.player.checkCards.CheckResult;
-import org.leanpoker.player.checkCards.HandRank;
 import org.leanpoker.player.checkCards.HandChecker;
+import org.leanpoker.player.checkCards.HandRank;
 
 /**
  *
@@ -20,12 +22,12 @@ public abstract class Strategy {
     protected String highRank1;
     protected String highRank2;
     protected int myCardsOfHand;
-    protected GameState gameState;
+    protected List<Card> cards;
 
     public int calculateBet(GameState gameState) {
         int bet = 0;
         HandChecker handChecker = new HandChecker();
-        CheckResult result = handChecker.getResult(gameState);
+        CheckResult result = handChecker.getResult(cards);
         this.hand = result.getHand();
         this.highRank1 = result.getHighRank1();
         this.highRank2 = result.getHighRank2();

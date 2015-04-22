@@ -56,7 +56,8 @@ public class CheckConditions {
 
     private void preFlop() {
         HandChecker handChecker = new HandChecker();
-        CheckResult checkResult = handChecker.getResult(gameState);
+        setAllCards();
+        CheckResult checkResult = handChecker.getResult(allCards);
         HandRank hand = checkResult.getHand();
         String highRank1 = checkResult.getHighRank1();
 
@@ -100,7 +101,8 @@ public class CheckConditions {
 
     private void afterPreFlop() {
         HandChecker handChecker = new HandChecker();
-        CheckResult checkResult = handChecker.getResult(gameState);
+        setAllCards();
+        CheckResult checkResult = handChecker.getResult(allCards);
         HandRank hand = checkResult.getHand();
         String highRank1 = checkResult.getHighRank1();
         String highRank2 = checkResult.getHighRank2();
@@ -365,6 +367,14 @@ public class CheckConditions {
 
     private int allIn() {
         return gameState.getCurrentPlayer().getStack();
+    }
+
+    private void setAllCards() {
+        allCards.clear();
+        allCards.addAll(gameState.getCurrentPlayer().getHoleCards());
+        allCards.get(0).setInMyHand(true);
+        allCards.get(1).setInMyHand(true);
+        allCards.addAll(gameState.getCommunityCards());
     }
 
 }
