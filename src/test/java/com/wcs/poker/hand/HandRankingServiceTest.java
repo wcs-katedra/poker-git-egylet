@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.core.Is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -68,6 +69,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.STRAIGH_FLUSH));
+        assertTrue(equalCardLists(result.getCards(), (Collection) loadCards("straightFlush.json")));
         //assertThat(result.getCards(), Is.is((Collection) loadCards("straightFlush.json")));
     }
 
@@ -156,5 +158,13 @@ public class HandRankingServiceTest {
         player.setHoleCards(cards.subList(0, 2));
         gameState.setPlayers(Arrays.asList(player));
         gameState.setCommunityCards(cards.subList(2, cards.size()));
+    }
+
+    private boolean equalCardLists(Collection<Card> cards1, Collection<Card> cards2) {
+        boolean equal = cards1.size() == cards2.size();
+        for (int i = 0; i < cards1.size() && equal; i++) {
+            equal = ((Card) (cards1.toArray()[i])).equals((Card) (cards2.toArray()[i]));
+        }
+        return equal;
     }
 }
