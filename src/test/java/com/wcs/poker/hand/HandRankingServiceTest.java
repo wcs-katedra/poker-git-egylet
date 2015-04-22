@@ -3,12 +3,9 @@ package com.wcs.poker.hand;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wcs.poker.gamestate.Card;
-import com.wcs.poker.gamestate.GameState;
-import com.wcs.poker.gamestate.Player;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -36,17 +33,16 @@ public class HandRankingServiceTest {
         handRankingService = new HandRankingService();
         handChecker = new HandChecker();
     }
-
+    
     @Ignore
     @Test(expected = IllegalArgumentException.class)
     public void testNotLessThenFiveCardsAreAccepted() {
-        handRankingService.evaulate(Collections.nCopies(4, (Card) null));
+        handChecker.getResult(Collections.nCopies(4, (Card) new Card("K", "hearts")));
     }
 
-    @Ignore
     @Test(expected = IllegalArgumentException.class)
     public void testNotMoreThenSevenCardsAreAccepted() {
-        handRankingService.evaulate(Collections.nCopies(8, (Card) null));
+        handChecker.getResult(Collections.nCopies(8, (Card) new Card("K", "hearts")));
     }
 
     @Test

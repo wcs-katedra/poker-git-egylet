@@ -32,7 +32,12 @@ public class HandChecker {
                 break;
             }
         }
-        return result;
+        if (cards.size()>7) {
+            throw new IllegalArgumentException();
+        }
+        else{
+            return result;
+        } 
     }
 
     private void setMyCards(GameState gameState) {
