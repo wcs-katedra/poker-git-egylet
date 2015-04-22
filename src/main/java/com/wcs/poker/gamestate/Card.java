@@ -4,6 +4,7 @@ import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Generated("org.jsonschema2pojo")
 public class Card {
@@ -94,6 +95,30 @@ public class Card {
 
     public boolean equals(String rank, String suit) {
         return this.rank.equals(rank) && this.suit.equals(suit);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Card other = (Card) obj;
+        if (!Objects.equals(this.rank, other.rank)) {
+            return false;
+        }
+        if (!Objects.equals(this.suit, other.suit)) {
+            return false;
+        }
+        return true;
     }
 
     public boolean equals(Card card) {

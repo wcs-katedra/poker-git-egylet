@@ -15,7 +15,6 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.core.Is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -60,7 +59,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.ROYAL_FLUSH));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("royalFlushHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("royalFlushHand.json")));
     }
 
     @Test
@@ -69,8 +68,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.STRAIGH_FLUSH));
-        assertTrue(equalCardLists(result.getCards(), (Collection) loadCards("straightFlush.json")));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("straightFlush.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("straightFlush.json")));
     }
 
     @Test
@@ -79,7 +77,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.POKER));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("fourOfAKindHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("fourOfAKindHand.json")));
     }
 
     @Test
@@ -88,7 +86,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.FULL));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("fullHouseHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("fullHouseHand.json")));
     }
 
     @Test
@@ -97,7 +95,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.FLUSH));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("flushHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("flushHand.json")));
     }
 
     @Test
@@ -106,7 +104,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.STRAIGHT));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("straightHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("straightHand.json")));
     }
 
     @Test
@@ -115,7 +113,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.DRILL));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("threeOfAKindHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("threeOfAKindHand.json")));
     }
 
     @Test
@@ -124,7 +122,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.TWO_PAIR));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("twoPairsHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("twoPairsHand.json")));
     }
 
     @Test
@@ -133,7 +131,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.ONE_PAIR));
-        //assertThat(result.getCards(), Is.is((Collection) loadCards("pairHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("pairHand.json")));
     }
 
     @Test
@@ -142,7 +140,7 @@ public class HandRankingServiceTest {
         CheckResult result = handChecker.getResult(gameState);
 
         assertThat(result.getHand(), Is.is(HandRank.HIGH_CARD));
-        //assertThat(result.getCards(),Is.is((Collection) loadCards("highCardHand.json")));
+        assertThat(result.getCards(),Is.is((Collection) loadCards("highCardHand.json")));
     }
 
     private List<Card> loadCards(String name) throws IOException {
@@ -158,13 +156,5 @@ public class HandRankingServiceTest {
         player.setHoleCards(cards.subList(0, 2));
         gameState.setPlayers(Arrays.asList(player));
         gameState.setCommunityCards(cards.subList(2, cards.size()));
-    }
-
-    private boolean equalCardLists(Collection<Card> cards1, Collection<Card> cards2) {
-        boolean equal = cards1.size() == cards2.size();
-        for (int i = 0; i < cards1.size() && equal; i++) {
-            equal = ((Card) (cards1.toArray()[i])).equals((Card) (cards2.toArray()[i]));
-        }
-        return equal;
     }
 }
