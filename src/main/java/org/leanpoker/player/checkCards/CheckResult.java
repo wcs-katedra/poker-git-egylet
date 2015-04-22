@@ -12,16 +12,12 @@ import java.util.List;
 public class CheckResult {
 
     private HandRank hand;
-    private String highRank1;
-    private String highRank2;
-    private int myCardsOfHand;
     private final Collection<Card> cards;
+    private RankInfo rankInfo;
 
     public CheckResult(HandRank hand, List<Card> cards, String highRank1, String highRank2, int myCardsOfHand) {
         this.hand = hand;
-        this.highRank1 = highRank1;
-        this.highRank2 = highRank2;
-        this.myCardsOfHand = myCardsOfHand;
+        rankInfo=new RankInfo(highRank1,highRank2,myCardsOfHand);
         this.cards = cards;
     }
 
@@ -34,19 +30,19 @@ public class CheckResult {
     }
 
     public String getHighRank1() {
-        return highRank1;
+        return rankInfo.getHighRank1();
     }
 
     public String getHighRank2() {
-        return highRank2;
+        return rankInfo.getHighRank2();
     }
 
     public int getMyCardsOfHand() {
-        return myCardsOfHand;
+        return rankInfo.getMyCardsOfHand();
     }
 
-    @Override
-    public String toString() {
-        return "CheckResult{" + "hand=" + hand + ", highRank1=" + highRank1 + ", highRank2=" + highRank2 + '}';
+    public RankInfo getRankInfo() {
+        return rankInfo;
     }
+    
 }
