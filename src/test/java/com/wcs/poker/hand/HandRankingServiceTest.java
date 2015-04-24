@@ -13,7 +13,6 @@ import org.apache.commons.io.IOUtils;
 import org.hamcrest.core.Is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.leanpoker.player.checkCards.CheckResult;
 import org.leanpoker.player.checkCards.HandChecker;
@@ -24,116 +23,115 @@ import org.leanpoker.player.checkCards.HandRank;
  * @author thomas
  */
 public class HandRankingServiceTest {
-
+    
     private HandRankingService handRankingService;
     private HandChecker handChecker;
-
+    
     @Before
     public void setUp() {
         handRankingService = new HandRankingService();
         handChecker = new HandChecker();
     }
-    
-    @Ignore
+
     @Test(expected = IllegalArgumentException.class)
     public void testNotLessThenFiveCardsAreAccepted() {
         handChecker.getResult(Collections.nCopies(4, (Card) new Card("K", "hearts")));
     }
-
+    
     @Test(expected = IllegalArgumentException.class)
     public void testNotMoreThenSevenCardsAreAccepted() {
         handChecker.getResult(Collections.nCopies(8, (Card) new Card("K", "hearts")));
     }
-
+    
     @Test
     public void testEvaulateRoyalFlushHand() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("royalFlushHandTestDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.ROYAL_FLUSH));
         assertThat(result.getCards(), Is.is((Collection) loadCards("royalFlushHand.json")));
     }
-
+    
     @Test
     public void testEvaulateStraightFlush() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("straightFlushHandTestDataSet.json")));
-    
+        
         assertThat(result.getHand(), Is.is(HandRank.STRAIGH_FLUSH));
         assertThat(result.getCards(), Is.is((Collection) loadCards("straightFlush.json")));
     }
-
+    
     @Test
     public void testEvaulateFourOfAKind() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("fourOfAKindTestDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.POKER));
         assertThat(result.getCards(), Is.is((Collection) loadCards("fourOfAKindHand.json")));
     }
-
+    
     @Test
     public void testEvaulateFullHouse() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("fullHouseTestDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.FULL));
         assertThat(result.getCards(), Is.is((Collection) loadCards("fullHouseHand.json")));
     }
-
+    
     @Test
     public void testEvaulateFlush() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("flushTestDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.FLUSH));
         assertThat(result.getCards(), Is.is((Collection) loadCards("flushHand.json")));
     }
-
+    
     @Test
     public void testEvaulateStraight() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("straightTestDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.STRAIGHT));
         assertThat(result.getCards(), Is.is((Collection) loadCards("straightHand.json")));
     }
-
+    
     @Test
     public void testEvaulateThreeOfAKind() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("threeOfAKindTestDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.DRILL));
         assertThat(result.getCards(), Is.is((Collection) loadCards("threeOfAKindHand.json")));
     }
-
+    
     @Test
     public void testEvaulateTwoPairs() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("twoPairsTestDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.TWO_PAIR));
         assertThat(result.getCards(), Is.is((Collection) loadCards("twoPairsHand.json")));
     }
-
+    
     @Test
     public void testEvaulatePair() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("pairTestDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.ONE_PAIR));
         assertThat(result.getCards(), Is.is((Collection) loadCards("pairHand.json")));
     }
-
+    
     @Test
     public void testEvaulateHighCard() throws Exception {
         CheckResult result = handChecker.getResult(modifiedCards(loadCards("highCardDataSet.json")));
-
+        
         assertThat(result.getHand(), Is.is(HandRank.HIGH_CARD));
-        assertThat(result.getCards(),Is.is((Collection) loadCards("highCardHand.json")));
+        assertThat(result.getCards(), Is.is((Collection) loadCards("highCardHand.json")));
     }
-
+    
     private List<Card> loadCards(String name) throws IOException {
         InputStream resource = getClass().getResourceAsStream(name);
         String json = IOUtils.toString(resource);
-
+        
         Type cardListType = new TypeToken<List<Card>>() {
         }.getType();
         return new Gson().fromJson(json, cardListType);
     }
-
+    
     private List<Card> modifiedCards(List<Card> cards) {
         cards.get(0).setInMyHand(true);
         cards.get(1).setInMyHand(true);

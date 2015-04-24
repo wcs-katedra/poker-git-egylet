@@ -2,7 +2,6 @@ package org.leanpoker.player.checkCards;
 
 import com.wcs.poker.gamestate.Card;
 import com.wcs.poker.gamestate.GameState;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,24 +24,17 @@ public class HandChecker {
             new CheckHighCard());
 
     public CheckResult getResult(List<Card> cards) {
-        CheckResult result = null;
-        for (Check checker : checkers) {
-            if (checker.isApplicable(cards)) {
-                result = checker.getResult(cards);
-                break;
-            }
-        }
-        if (cards.size()>7) {
+        if (cards.size() < 5 || cards.size() > 7) {
             throw new IllegalArgumentException();
-        }
-        else{
+        } else {
+            CheckResult result = null;
+            for (Check checker : checkers) {
+                if (checker.isApplicable(cards)) {
+                    result = checker.getResult(cards);
+                    break;
+                }
+            }
             return result;
-        } 
-    }
-
-    private void setMyCards(GameState gameState) {
-        for (Card card : gameState.requestActHoleCards()) {
-            card.setInMyHand(true);
         }
     }
 }

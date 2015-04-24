@@ -4,6 +4,8 @@ import com.wcs.poker.gamestate.Card;
 import com.wcs.poker.gamestate.GameState;
 import java.util.ArrayList;
 import java.util.List;
+import org.leanpoker.player.checkCards.CheckHighCard;
+import org.leanpoker.player.checkCards.CheckOnePair;
 import org.leanpoker.player.checkCards.CheckResult;
 import org.leanpoker.player.checkCards.HandRank;
 import org.leanpoker.player.checkCards.HandChecker;
@@ -50,14 +52,16 @@ public class CheckConditions {
 //        if (strategy != null) {
 //            bet = strategy.calculateBet(gameState);
 //        }
-
         return bet;
     }
 
     private void preFlop() {
-        HandChecker handChecker = new HandChecker();
+        //HandChecker handChecker = new HandChecker();
         setAllCards();
-        CheckResult checkResult = handChecker.getResult(allCards);
+        CheckResult checkResult = new CheckHighCard().getResult(allCards);
+        if (checkResult == null) {
+            checkResult = new CheckOnePair().getResult(allCards);
+        }
         HandRank hand = checkResult.getHand();
         String highRank1 = checkResult.getHighRank1();
 
