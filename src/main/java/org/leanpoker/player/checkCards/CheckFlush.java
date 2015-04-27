@@ -1,7 +1,6 @@
 package org.leanpoker.player.checkCards;
 
 import com.wcs.poker.gamestate.Card;
-import java.util.List;
 import org.git_egylet.tools.Tools;
 import static org.leanpoker.player.checkCards.Check.*;
 

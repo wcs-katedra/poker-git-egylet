@@ -38,7 +38,6 @@ public class CheckDrill extends Check {
         for (Card card : cards) {
             if (card.isEqualRank(highRank1)) {
                 orderedCardList.add(card);
-                //cards.remove(card); ez sajnos nem jött be (ConcurrentModificationException)
             }
         }
         cards = Tools.orderCards(cards);

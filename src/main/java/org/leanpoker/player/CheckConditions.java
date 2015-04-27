@@ -9,7 +9,6 @@ import org.leanpoker.player.checkCards.CheckOnePair;
 import org.leanpoker.player.checkCards.CheckResult;
 import org.leanpoker.player.checkCards.HandRank;
 import org.leanpoker.player.checkCards.HandChecker;
-import org.leanpoker.player.strategies.*;
 
 /**
  *
@@ -34,29 +33,10 @@ public class CheckConditions {
             afterPreFlop();
         }
 
-//        Strategy strategy = null;
-//        switch (gameState.getCommunityCards().size()) {
-//            case 0:
-//                strategy = new PreFlopStrategy();
-//                break;
-//            case 3:
-//                strategy = new FlopStrategy();
-//                break;
-//            case 4:
-//                strategy = new TurnStrategy();
-//                break;
-//            case 5:
-//                strategy = new RiverStrategy();
-//                break;
-//        }
-//        if (strategy != null) {
-//            bet = strategy.calculateBet(gameState);
-//        }
         return bet;
     }
 
     private void preFlop() {
-        //HandChecker handChecker = new HandChecker();
         setAllCards();
         CheckResult checkResult = new CheckHighCard().getResult(allCards);
         if (checkResult == null) {

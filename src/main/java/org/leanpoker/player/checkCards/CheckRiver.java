@@ -7,8 +7,6 @@ package org.leanpoker.player.checkCards;
 
 import com.wcs.poker.gamestate.Card;
 import com.wcs.poker.gamestate.GameState;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
